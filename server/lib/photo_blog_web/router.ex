@@ -5,8 +5,12 @@ defmodule PhotoBlogWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", PhotoBlogWeb do
+  scope "/api/v1", PhotoBlogWeb do
     pipe_through :api
+
+    resources "/users", UserController, except: [:new, :edit]
+    resources "/posts", PostController, except: [:new, :edit]
+    resources "/comments", CommentController, except: [:new, :edit]
   end
 
   # Enables LiveDashboard only for development
