@@ -5,6 +5,11 @@ defmodule PhotoBlogWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/", PhotoBlogWeb do
+    get "/", PageController, :index
+    get "/photos/:hash", PageController, :photo
+  end
+
   scope "/api/v1", PhotoBlogWeb do
     pipe_through :api
 
