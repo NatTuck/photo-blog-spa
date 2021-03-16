@@ -16,7 +16,7 @@ defmodule PhotoBlogWeb.PostView do
       id: post.id,
       body: post.body,
       photo_hash: post.photo_hash,
-      user: render_one(post.user, UserView, "user.json"),
+      user: render_one(post.user, UserView, "user.json")
     }
   end
 end

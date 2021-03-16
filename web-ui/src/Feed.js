@@ -12,7 +12,7 @@ function Post({post}) {
       <Card>
         <Card.Img variant="top" src={photo_path(post)} />
         <Card.Text>
-          Posted by {post.user.name}<br/>
+          Posted by {post.user.name} <br/>
           {post.body}
         </Card.Text>
       </Card>
@@ -21,11 +21,14 @@ function Post({post}) {
 }
 
 function Feed({posts}) {
-  let cards = posts.map((post) => <Post post={post} key={post.id} />);
+  let cards = posts.map((post) => (
+    <Post post={post} key={post.id} />
+  ));
   return (
-    <Row>
-      { cards }
-    </Row>
+    <div>
+      <h2>Feed</h2>
+      <Row>{cards}</Row>
+    </div>
   );
 }
 

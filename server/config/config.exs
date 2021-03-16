@@ -16,10 +16,10 @@ config :photo_blog,
 # Configures the endpoint
 config :photo_blog, PhotoBlogWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "ZrDxnPdDNugjZ7nJUViLoeTyQvQPKhX/QGCPcZdNvW7zRfzQz/kdUM3K7HrrD37/",
-  render_errors: [view: PhotoBlogWeb.ErrorView, accepts: ~w(json), layout: false],
+  secret_key_base: "Q3V5uG7FQxHcj/t+96sDr+JkdBmevkLcMywNDMqpA26ikWFsG0F4y5NJtiRMEUNu",
+  render_errors: [view: PhotoBlogWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: PhotoBlog.PubSub,
-  live_view: [signing_salt: "JPqg24oR"]
+  live_view: [signing_salt: "ePL3319u"]
 
 # Configures Elixir's Logger
 config :logger, :console,

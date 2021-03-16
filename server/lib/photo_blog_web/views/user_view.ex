@@ -11,8 +11,9 @@ defmodule PhotoBlogWeb.UserView do
   end
 
   def render("user.json", %{user: user}) do
-    %{id: user.id,
-      name: user.name,
-      password_hash: user.password_hash}
+    %{
+      id: user.id,
+      name: user.name
+    }
   end
 end

@@ -1,10 +1,11 @@
+
 import { Container } from 'react-bootstrap';
 import { Switch, Route } from 'react-router-dom';
 
-import "./App.scss";
-import Nav from "./Nav";
-import Feed from "./Feed";
-import Users from "./Users";
+import './App.scss';
+import Nav from './Nav';
+import Users from './Users';
+import Feed from './Feed';
 
 function App() {
   return (

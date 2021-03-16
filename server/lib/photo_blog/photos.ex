@@ -15,7 +15,7 @@ defmodule PhotoBlog.Photos do
     save_photo(name, data, hash, meta)
   end
 
-  # Note: data race
+  #  DATA RACE!?!??!?!
   def save_photo(name, data, hash, meta) do
     meta = Map.update!(meta, :refs, &(&1 + 1))
     File.write!(meta_path(hash), Jason.encode!(meta))
@@ -25,7 +25,8 @@ defmodule PhotoBlog.Photos do
 
   def load_photo(hash) do
     data = File.read!(data_path(hash))
-    meta = read_meta(hash)
+    meta = File.read!(meta_path(hash))
+    |> Jason.decode!
     {:ok, Map.get(meta, :name), data}
   end
 
@@ -48,12 +49,12 @@ defmodule PhotoBlog.Photos do
     |> Path.join(String.slice(hash, 2, 30))
   end
 
-  def data_path(hash) do
-    Path.join(base_path(hash), "photo.jpg")
-  end
-
   def meta_path(hash) do
     Path.join(base_path(hash), "meta.json")
+  end
+
+  def data_path(hash) do
+    Path.join(base_path(hash), "photo.jpg")
   end
 
   def sha256(data) do

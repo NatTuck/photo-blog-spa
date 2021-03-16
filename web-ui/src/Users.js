@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import capitalize from 'lodash/capitalize';
+import { connect } from 'react-redux';
 
 function Field({user, setUser, field}) {
   function update(ev) {
@@ -12,7 +12,8 @@ function Field({user, setUser, field}) {
   return (
     <Form.Group>
       <Form.Label>{capitalize(field)}</Form.Label>
-      <Form.Control type="text" onChange={update} value={user[field]||""} />
+      <Form.Control type="text" onChange={update}
+                    value={user[field] || ""} />
     </Form.Group>
   );
 }
@@ -36,7 +37,10 @@ function UserForm({user, setUser}) {
 
 function Users({users, user_form, dispatch}) {
   function setUser(user) {
-    dispatch({type: 'user_form/set', data: user});
+    dispatch({
+      type: 'user_form/set',
+      data: user
+    });
   }
 
   let rows = users.map((user) => (
@@ -78,11 +82,16 @@ function Users({users, user_form, dispatch}) {
       <Row>
         <Col>
           <h2>Edit User</h2>
-          <UserForm user={user_form} setUser={setUser}/>
+          <UserForm user={user_form} setUser={setUser} />
         </Col>
       </Row>
     </div>
   );
+
 }
 
-export default connect(({users, user_form}) => ({users, user_form}))(Users);
+function state2props({users, user_form}) {
+  return { users, user_form };
+}
+
+export default connect(state2props)(Users);

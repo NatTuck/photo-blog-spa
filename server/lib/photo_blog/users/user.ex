@@ -5,7 +5,9 @@ defmodule PhotoBlog.Users.User do
   schema "users" do
     field :name, :string
     field :password_hash, :string
+
     has_many :posts, PhotoBlog.Posts.Post
+    has_many :comments, PhotoBlog.Comments.Comment
     has_many :votes, PhotoBlog.Votes.Vote
 
     timestamps()

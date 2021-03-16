@@ -9,6 +9,7 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
 alias PhotoBlog.Repo
 alias PhotoBlog.Users.User
 alias PhotoBlog.Posts.Post
@@ -26,8 +27,19 @@ end
 alice = Repo.insert!(%User{name: "alice", password_hash: ""})
 bob = Repo.insert!(%User{name: "bob", password_hash: ""})
 
-elephant = Inject.photo("elephant.jpg")
 moon = Inject.photo("moon.jpg")
+nature = Inject.photo("nature.jpg")
 
-Repo.insert!(%Post{user_id: alice.id, photo_hash: elephant, body: "Alice says Hi!"})
-Repo.insert!(%Post{user_id: bob.id, photo_hash: moon, body: "Bob says garblarg!"})
+p1 = %Post{
+  user_id: alice.id,
+  photo_hash: moon,
+  body: "Alice says Hi!"
+}
+Repo.insert!(p1)
+
+p2 = %Post{
+  user_id: bob.id,
+  photo_hash: nature,
+  body: "Bob ate Pizza!"
+}
+Repo.insert!(p2)
