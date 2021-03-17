@@ -16,7 +16,16 @@ defmodule PhotoBlog.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :password_hash])
+    |> cast(attrs, [:name])
+    |> add_password_hash(attrs["password"])
     |> validate_required([:name, :password_hash])
+  end
+
+  def add_password_hash(cset, nil) do
+    cset
+  end
+
+  def add_password_hash(cset, password) do
+    change(cset, Argon2.add_hash(password))
   end
 end

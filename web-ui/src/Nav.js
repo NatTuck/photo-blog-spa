@@ -1,9 +1,10 @@
-import { Nav, Row, Col, Form, Button } from 'react-bootstrap';
+import { Nav, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 
 import { api_login } from './api';
+import store from './store';
 
 function LoginForm() {
   const [name, setName] = useState("");
@@ -32,8 +33,16 @@ function LoginForm() {
 }
 
 function SessionInfo({session}) {
+  function logout(ev) {
+    ev.preventDefault();
+    store.dispatch({ type: 'session/clear' });
+  }
+
   return (
-    <p>Logged in as {session.name}</p>
+    <p>
+      Logged in as {session.name}
+      <Button onClick={logout}>Logout</Button>
+    </p>
   );
 }
 
@@ -60,18 +69,35 @@ function Link({to, children}) {
   );
 }
 
-export default function AppNav() {
+function AppNav({error}) {
+  let error_row = null;
+
+  if (error) {
+    error_row = (
+      <Row>
+        <Col>
+          <Alert variant="danger">{error}</Alert>
+        </Col>
+      </Row>
+    );
+  }
+
   return (
-    <Row>
-      <Col>
-        <Nav variant="pills">
-          <Link to="/">Feed</Link>
+    <div>
+      <Row>
+        <Col>
+          <Nav variant="pills">
+            <Link to="/">Feed</Link>
           <Link to="/users">Users</Link>
         </Nav>
-      </Col>
-      <Col>
-        <LoginOrInfo />
-      </Col>
-    </Row>
+        </Col>
+        <Col>
+          <LoginOrInfo />
+        </Col>
+      </Row>
+      { error_row }
+    </div>
   );
 }
+
+export default connect(({error})=>({error}))(AppNav);

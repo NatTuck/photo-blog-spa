@@ -22,10 +22,15 @@ defmodule Inject do
     {:ok, hash} = Photos.save_photo(name, path)
     hash
   end
+
+  def user(name, pass) do
+    hash = Argon2.hash_pwd_salt(pass)
+    Repo.insert!(%User{name: name, password_hash: hash})
+  end
 end
 
-alice = Repo.insert!(%User{name: "alice", password_hash: ""})
-bob = Repo.insert!(%User{name: "bob", password_hash: ""})
+alice = Inject.user("alice", "test1")
+bob = Inject.user("bob", "test2")
 
 moon = Inject.photo("moon.jpg")
 nature = Inject.photo("nature.jpg")

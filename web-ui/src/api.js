@@ -16,9 +16,9 @@ async function api_post(path, data) {
     },
     body: JSON.stringify(data),
   };
-  let text = await fetch(
+  let resp = await fetch(
     "http://localhost:4000/api/v1" + path, opts);
-  return await text.json();
+  return await resp.json();
 }
 
 export function fetch_users() {
@@ -44,12 +44,25 @@ export function fetch_posts() {
 export function api_login(name, password) {
   api_post("/session", {name, password}).then((data) => {
     console.log("login resp", data);
-    let action = {
-      type: 'session/set',
-      data: data,
+    if (data.session) {
+      let action = {
+        type: 'session/set',
+        data: data.session,
+      }
+      store.dispatch(action);
     }
-    store.dispatch(action);
+    else if (data.error) {
+      let action = {
+        type: 'error/set',
+        data: data.error,
+      };
+      store.dispatch(action);
+    }
   });
+}
+
+export function create_user(user) {
+  return api_post("/users", {user});
 }
 
 export function load_defaults() {
