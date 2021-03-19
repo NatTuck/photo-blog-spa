@@ -65,6 +65,18 @@ export function create_user(user) {
   return api_post("/users", {user});
 }
 
+export function create_post(post) {
+  let data = new FormData();
+  data.append("post[photo]", post.photo);
+  data.append("post[body]", post.body);
+  fetch("http://localhost:4000/api/v1/posts", {
+    method: 'POST',
+    body: data,
+  }).then((resp) => {
+    console.log(resp);
+  });
+}
+
 export function load_defaults() {
   fetch_posts();
   fetch_users();

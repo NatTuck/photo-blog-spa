@@ -7,6 +7,7 @@ import Nav from './Nav';
 import Feed from './Feed';
 import UsersList from './Users/List';
 import UsersNew from './Users/New';
+import PostNew from './Posts/New';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
         </Route>
         <Route path="/users/new">
           <UsersNew />
+        </Route>
+        <Route path="/posts/new">
+          <PostNew />
         </Route>
       </Switch>
     </Container>

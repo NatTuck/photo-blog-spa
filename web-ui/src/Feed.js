@@ -1,5 +1,6 @@
 
 import { Row, Col, Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 function photo_path(post) {
@@ -27,6 +28,7 @@ function Feed({posts}) {
   return (
     <div>
       <h2>Feed</h2>
+      <p><Link to="/posts/new">New Post</Link></p>
       <Row>{cards}</Row>
     </div>
   );
