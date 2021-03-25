@@ -6,9 +6,13 @@ defmodule PhotoBlog.UsersTest do
   describe "users" do
     alias PhotoBlog.Users.User
 
-    @valid_attrs %{name: "some name", password_hash: "some password_hash"}
-    @update_attrs %{name: "some updated name", password_hash: "some updated password_hash"}
-    @invalid_attrs %{name: nil, password_hash: nil}
+    @valid_attrs %{name: "carol", password: "password1"}
+    @update_attrs %{name: "dave", password: "password2"}
+    @invalid_attrs %{name: "erin", password: "goat"}
+
+    def norm(%User{} = user) do
+      Map.drop(user, [:password])
+    end
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
@@ -21,18 +25,20 @@ defmodule PhotoBlog.UsersTest do
 
     test "list_users/0 returns all users" do
       user = user_fixture()
-      assert Users.list_users() == [user]
+      names = Users.list_users() |> Enum.map(&(&1.name))
+      assert Enum.member?(names, "carol")
+      assert Enum.member?(names, "alice")
     end
 
     test "get_user!/1 returns the user with given id" do
       user = user_fixture()
-      assert Users.get_user!(user.id) == user
+      assert norm(Users.get_user!(user.id)) == norm(user)
     end
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
-      assert user.name == "some name"
-      assert user.password_hash == "some password_hash"
+      assert user.name == "carol"
+      assert Argon2.check_pass(user, "password1")
     end
 
     test "create_user/1 with invalid data returns error changeset" do
