@@ -1,10 +1,10 @@
-import { Nav, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { Nav, Row, Col, Form,
+         Button, Alert } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 
 import { api_login } from './api';
-import store from './store';
 
 function LoginForm() {
   const [name, setName] = useState("");
@@ -32,19 +32,17 @@ function LoginForm() {
   );
 }
 
-function SessionInfo({session}) {
-  function logout(ev) {
-    ev.preventDefault();
-    store.dispatch({ type: 'session/clear' });
+let SessionInfo = connect()(({session, dispatch}) => {
+  function logout() {
+    dispatch({type: 'session/clear'});
   }
-
   return (
     <p>
-      Logged in as {session.name}
+      Logged in as {session.name} &nbsp;
       <Button onClick={logout}>Logout</Button>
     </p>
   );
-}
+});
 
 function LOI({session}) {
   if (session) {
@@ -88,8 +86,8 @@ function AppNav({error}) {
         <Col>
           <Nav variant="pills">
             <Link to="/">Feed</Link>
-          <Link to="/users">Users</Link>
-        </Nav>
+            <Link to="/users">Users</Link>
+          </Nav>
         </Col>
         <Col>
           <LoginOrInfo />
@@ -100,4 +98,4 @@ function AppNav({error}) {
   );
 }
 
-export default connect(({error})=>({error}))(AppNav);
+export default connect(({error}) => ({error}))(AppNav);

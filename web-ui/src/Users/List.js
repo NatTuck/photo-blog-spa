@@ -1,12 +1,14 @@
-import { Row, Col } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 function UsersList({users}) {
   let rows = users.map((user) => (
     <tr key={user.id}>
       <td>{user.name}</td>
-      <td>[Edit]</td>
+      <td>
+        [ Edit ]
+      </td>
     </tr>
   ));
 
@@ -38,8 +40,8 @@ function UsersList({users}) {
 
 }
 
-function state2props({users}) {
-  return { users };
+function state2props({users, user_form}) {
+  return { users, user_form };
 }
 
 export default connect(state2props)(UsersList);

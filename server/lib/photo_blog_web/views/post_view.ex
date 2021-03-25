@@ -12,11 +12,17 @@ defmodule PhotoBlogWeb.PostView do
   end
 
   def render("post.json", %{post: post}) do
+    user = if Ecto.assoc_loaded?(post.user) do
+      render_one(post.user, UserView, "user.json")
+    else
+      nil
+    end
+
     %{
       id: post.id,
       body: post.body,
       photo_hash: post.photo_hash,
-      user: render_one(post.user, UserView, "user.json")
+      user: user,
     }
   end
 end

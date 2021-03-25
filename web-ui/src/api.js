@@ -16,9 +16,9 @@ async function api_post(path, data) {
     },
     body: JSON.stringify(data),
   };
-  let resp = await fetch(
+  let text = await fetch(
     "http://localhost:4000/api/v1" + path, opts);
-  return await resp.json();
+  return await text.json();
 }
 
 export function fetch_users() {
@@ -52,10 +52,10 @@ export function api_login(name, password) {
       store.dispatch(action);
     }
     else if (data.error) {
-      let action = {
+     let action = {
         type: 'error/set',
         data: data.error,
-      };
+      }
       store.dispatch(action);
     }
   });
@@ -65,17 +65,30 @@ export function create_user(user) {
   return api_post("/users", {user});
 }
 
-export function create_post(post) {
+export async function create_post(post) {
+  let state = store.getState();
+  let token = state?.session?.token;
+
   let data = new FormData();
   data.append("post[photo]", post.photo);
   data.append("post[body]", post.body);
-  fetch("http://localhost:4000/api/v1/posts", {
+  let opts = {
     method: 'POST',
     body: data,
-  }).then((resp) => {
-    console.log(resp);
-  });
+    headers: {
+      'x-auth': token,
+    },
+    // fetch will magically do the right thing
+    // with our FormData:
+    //  - It's going to read the file
+    //  - It's going to pick correct headers
+    //  - multipart-form-data
+  };
+  let text = await fetch(
+    "http://localhost:4000/api/v1/posts", opts);
+  return await text.json();
 }
+
 
 export function load_defaults() {
   fetch_posts();

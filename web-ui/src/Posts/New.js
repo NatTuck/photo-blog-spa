@@ -1,17 +1,26 @@
-
 import { Row, Col, Form, Button } from 'react-bootstrap';
-import { useState } from 'react'
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { create_post } from '../api';
+import { create_post, fetch_posts } from '../api';
 
 export default function PostsNew() {
+  let history = useHistory();
   let [post, setPost] = useState({});
 
-  function onSubmit(ev) {
+  function submit(ev) {
     ev.preventDefault();
     console.log(ev);
     console.log(post);
-    create_post(post);
+    create_post(post).then((resp) => {
+      if (resp["errors"]) {
+        console.log("errors", resp.errors);
+      }
+      else {
+        history.push("/");
+        fetch_posts();
+      }
+    });
   }
 
   function updatePhoto(ev) {
@@ -26,25 +35,25 @@ export default function PostsNew() {
     setPost(p1);
   }
 
-  // Note: File input can't be a controlled input.
   return (
     <Row>
       <Col>
         <h2>New Post</h2>
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={submit}>
           <Form.Group>
             <Form.Label>Photo</Form.Label>
-            <Form.Control type="file" onChange={updatePhoto} />
+            <Form.Control type="file"
+                          onChange={updatePhoto} />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Body</Form.Label>
+            <Form.Label>Text</Form.Label>
             <Form.Control as="textarea"
                           rows={4}
                           onChange={updateBody}
                           value={post.body} />
           </Form.Group>
           <Button variant="primary" type="submit">
-            Save
+            Post!
           </Button>
         </Form>
       </Col>

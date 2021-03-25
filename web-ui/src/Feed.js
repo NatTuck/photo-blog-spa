@@ -9,7 +9,7 @@ function photo_path(post) {
 
 function Post({post}) {
   return (
-    <Col>
+    <Col md="3">
       <Card>
         <Card.Img variant="top" src={photo_path(post)} />
         <Card.Text>
@@ -21,17 +21,26 @@ function Post({post}) {
   );
 }
 
-function Feed({posts}) {
+function Feed({posts, session}) {
   let cards = posts.map((post) => (
     <Post post={post} key={post.id} />
   ));
+
+  let new_link = null;
+  if (session) {
+    new_link = (
+      <p><Link to="/posts/new">New Post</Link></p>
+    )
+  }
+
   return (
     <div>
       <h2>Feed</h2>
-      <p><Link to="/posts/new">New Post</Link></p>
+      { new_link }
       <Row>{cards}</Row>
     </div>
   );
 }
 
-export default connect(({posts}) => ({posts}))(Feed);
+export default connect(
+  ({posts, session}) => ({posts, session}))(Feed);

@@ -12,14 +12,20 @@ defmodule PhotoBlogWeb.SessionController do
       conn
       |> put_resp_header(
         "content-type",
-      "application/json; charset=UTF-8")
-      |> send_resp(:created, Jason.encode!(%{session: sess}))
+        "application/json; charset=UTF-8")
+      |> send_resp(
+        :created,
+        Jason.encode!(%{session: sess})
+      )
     else
       conn
       |> put_resp_header(
         "content-type",
-      "application/json; charset=UTF-8")
-      |> send_resp(:unauthorized, Jason.encode!(%{error: "fail"}))
+        "application/json; charset=UTF-8")
+      |> send_resp(
+        :unauthorized,
+        Jason.encode!(%{error: "fail"})
+      )
     end
   end
 end
